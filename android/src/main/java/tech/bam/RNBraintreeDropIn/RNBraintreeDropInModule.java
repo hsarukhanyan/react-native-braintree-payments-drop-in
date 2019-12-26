@@ -2,6 +2,8 @@ package tech.bam.RNBraintreeDropIn;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
@@ -45,7 +47,10 @@ public class RNBraintreeDropInModule extends ReactContextBaseJavaModule {
       return;
     }
 
-    DropInRequest dropInRequest = new DropInRequest().clientToken(options.getString("clientToken"));
+    DropInRequest dropInRequest = new DropInRequest()
+            .clientToken(options.getString("clientToken"))
+            .vaultManager(true)
+            .vaultCard(true);
 
     if (options.hasKey("threeDSecure")) {
       final ReadableMap threeDSecureOptions = options.getMap("threeDSecure");
@@ -55,7 +60,7 @@ public class RNBraintreeDropInModule extends ReactContextBaseJavaModule {
       }
 
       isVerifyingThreeDSecure = true;
-
+      Log.d("CHANGES", "WORKING");
       dropInRequest
       .amount(String.valueOf(threeDSecureOptions.getDouble("amount")))
       .requestThreeDSecureVerification(true);
